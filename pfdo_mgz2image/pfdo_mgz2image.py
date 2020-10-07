@@ -90,10 +90,10 @@ class pfdo_mgz2image(pfdo.pfdo):
 
     def inputAnalyzeCallback(self, *args, **kwargs):
         """
-        Callback stub for doing actual work. Since the `mgz2image`
+        Callback stub for doing actual work. Since the `mgz2imgslices`
         is a mostly stand-apart module, the inputRead and outputWrite
         callbacks are not applicable here, since calling the
-        `mgz2image` module appropriately reads an input and saves
+        `mgz2imgslices` module appropriately reads an input and saves
         an output.
         """
         b_status            : bool  = False
@@ -117,6 +117,7 @@ class pfdo_mgz2image(pfdo.pfdo):
                                             self.args['inputDir'], 
                                             self.args['outputDir']
                                         )
+        mgz2image_args['saveImages']    = self.args['saveImages']      
         mgz2image_ns    = Namespace(**mgz2image_args)
         imgConverter    = mgz2imgslices.object_factoryCreate(mgz2image_ns).C_convert
 
@@ -183,6 +184,8 @@ class pfdo_mgz2image(pfdo.pfdo):
         since this contains the calls to the first `pftree` prove as well
         as any (overloaded) file filtering.
         """
+
+        # pudb.set_trace()
         b_status        : bool  = False
         b_timerStart    : bool  = False
         d_pfdo          : dict  = {}

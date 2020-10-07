@@ -336,7 +336,7 @@ parser.add_argument("-t", "--outputFileType",
                     default = '')
 parser.add_argument('--saveImages',
                     help='store png images for each slice of mgz file',
-                    dest='image',
+                    dest='saveImages',
                     action= 'store_true',
                     default = False
                     )                    
