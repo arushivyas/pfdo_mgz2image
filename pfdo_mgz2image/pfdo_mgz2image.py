@@ -1,3 +1,7 @@
+# Turn off all logging for modules in this libary.
+import logging
+logging.disable(logging.CRITICAL)
+
 # System imports
 import      os
 import      json
@@ -73,11 +77,21 @@ class pfdo_mgz2image(pfdo.pfdo):
         l_fileProbed    : list      = []
         b_status        : bool      = True
         filesProbed     : int       = 0
+        str_outputWorkingDir: str       = ""
 
         if len(args):
             at_data         = args[0]
             str_path        = at_data[0]
             l_fileProbed    = at_data[1]
+
+        # Need to create the output dir appropriately here!
+        str_outputWorkingDir    = str_path.replace(
+                                        self.args['inputDir'],
+                                        self.args['outputDir']
+        )
+        self.dp.qprint("mkdir %s" % str_outputWorkingDir,
+                        level = 3)
+        other.mkdir(str_outputWorkingDir)
 
         if not len(l_fileProbed): b_status = False
 
@@ -100,6 +114,7 @@ class pfdo_mgz2image(pfdo.pfdo):
         l_fileProbed        : list  = []
         d_inputReadCallback : dict  = {}
         d_convert           : dict  = {}
+        
 
         for k, v in kwargs.items():
             if k == 'path':         str_path    = v
