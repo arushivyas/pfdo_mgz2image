@@ -371,6 +371,11 @@ parser.add_argument('-w', '--wholeVolume',
                     dest='wholeVolume',
                     default = 'wholeVolume'
                     )
+parser.add_argument("--optimize",
+                    help    = "Speed up the execution time",
+                    dest    = 'optimize',
+                    action  = 'store_true',
+                    default = True)
 
 
 
