@@ -19,7 +19,7 @@ import  pfmisc
 from    pfmisc._colors      import Colors
 from    pfmisc              import other
 
-str_version = "1.0.0"
+str_version = "1.0.2"
 str_desc = Colors.CYAN + """
 
         __    _                           _  _____  _                             
@@ -371,13 +371,6 @@ parser.add_argument('-w', '--wholeVolume',
                     dest='wholeVolume',
                     default = 'wholeVolume'
                     )
-parser.add_argument("--optimize",
-                    help    = "Speed up the execution time",
-                    dest    = 'optimize',
-                    action  = 'store_true',
-                    default = True)
-
-
 
 args = parser.parse_args()
 
