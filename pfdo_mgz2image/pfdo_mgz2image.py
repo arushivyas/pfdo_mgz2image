@@ -132,7 +132,8 @@ class pfdo_mgz2image(pfdo.pfdo):
                                             self.args['inputDir'], 
                                             self.args['outputDir']
                                         )
-        mgz2image_args['saveImages']    = self.args['saveImages']     
+        mgz2image_args['saveImages']    = self.args['saveImages']  
+        mgz2image_args['skipAllLabels'] = self.args['skipAllLabels']  
         
         mgz2image_ns    = Namespace(**mgz2image_args)
         imgConverter    = mgz2imgslices.object_factoryCreate(mgz2image_ns).C_convert

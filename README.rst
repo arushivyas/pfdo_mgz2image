@@ -1,4 +1,4 @@
-pfdo_mgz2image 1.0.4 
+pfdo_mgz2image 1.0.6
 =====================
 
 .. image:: https://badge.fury.io/py/pfdo_mgz2image.svg
@@ -149,6 +149,9 @@ Command line arguments
         the FreeSurferColorLUT.txt from within the docker container to perform a 
         looktup on the filtered voxel label values according to the contents of 
         the FreeSurferColorLUT.txt
+
+        [--skipAllLabels]
+        Skips all labels and converts only the whole mgz volume to png/jpg images.
 
         [-s|--skipLabelValueList <ListOfLabelNumbersToSkip>]
         If specified as a comma separated string of label numbers,
