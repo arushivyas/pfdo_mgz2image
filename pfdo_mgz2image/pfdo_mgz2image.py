@@ -110,6 +110,57 @@ class pfdo_mgz2image(pfdo.pfdo):
         `mgz2imgslices` module appropriately reads an input and saves
         an output.
         """
+
+        def l_fileToAnalyze_determine(l_fileProbed):
+            """
+            Return the list of files to process, based on l_fileProbed
+            and self.args['analyzeFileIndex']
+            """
+
+            def middleIndex_find(l_lst):
+                """
+                Return the middle index in a list.
+                If list has no length, return None.
+                """
+                middleIndex     = None
+                if len(l_lst):
+                    if len(l_lst) == 1:
+                        middleIndex = 0
+                    else:
+                        middleIndex = round(len(l_lst)/2+0.01)
+                return middleIndex
+
+            def nIndex_find(l_lst, str_index):
+                """
+                For a string index, say "2", return the index at l_lst[2].
+                If index is out of bounds return None.
+                """
+                index:  int = 0
+                try:
+                    index   = int(str_index)
+                    if len(l_lst):
+                        if index >= -1 and index < len(l_lst):
+                            return index
+                except:
+                    pass
+                return None
+
+            l_fileToAnalyze:    list    = []
+            if len(l_fileProbed):
+                if self.args['analyzeFileIndex'] == 'f': l_fileToAnalyze.append(l_fileProbed[0])
+                if self.args['analyzeFileIndex'] == 'l': l_fileToAnalyze.append(l_fileProbed[-1])
+                if self.args['analyzeFileIndex'] == 'm':
+                    if middleIndex_find(l_fileProbed) >= 0:
+                        self.dp.qprint(l_fileProbed, level = 5)
+                        l_fileToAnalyze.append(l_fileProbed[middleIndex_find(l_fileProbed)])
+                nIndex  = nIndex_find(l_fileProbed, self.args['analyzeFileIndex'])
+                if nIndex:
+                    if nIndex == -1:
+                        l_fileToAnalyze = l_fileProbed
+                    else:
+                        l_fileToAnalyze.append(nIndex)
+            return l_fileToAnalyze
+
         b_status            : bool  = False
         l_fileProbed        : list  = []
         d_inputReadCallback : dict  = {}
@@ -123,23 +174,30 @@ class pfdo_mgz2image(pfdo.pfdo):
             at_data             = args[0]
             str_path            = at_data[0]
             d_inputReadCallback = at_data[1]
+            l_fileProbed        = d_inputReadCallback['l_fileProbed']
 
         # pudb.set_trace()
         mgz2image_args                  = self.args.copy()
-        mgz2image_args['inputDir']      = str_path
-        mgz2image_args['inputFile']     = d_inputReadCallback['l_fileProbed'][0]
-        mgz2image_args['outputDir']     = str_path.replace(
-                                            self.args['inputDir'], 
-                                            self.args['outputDir']
-                                        )
-        mgz2image_args['saveImages']    = self.args['saveImages']  
-        mgz2image_args['skipAllLabels'] = self.args['skipAllLabels']  
-        
-        mgz2image_ns    = Namespace(**mgz2image_args)
-        imgConverter    = mgz2imgslices.object_factoryCreate(mgz2image_ns).C_convert
 
-        # At time of dev, the `imgConverter.run()` does not return anything.
-        imgConverter.run()
+        for str_file in l_fileToAnalyze_determine(l_fileProbed):
+            mgz2image_args['inputDir']      = str_path
+            mgz2image_args['inputFile']     = str_file
+            mgz2image_args['outputDir']     = str_path.replace(
+                                                self.args['inputDir'], 
+                                                self.args['outputDir']
+                                            )
+
+            mgz2image_args['outputDir'] = os.path.join(mgz2image_args['outputDir'], str_file)
+            os.mkdir(mgz2image_args['outputDir'])
+
+            mgz2image_args['saveImages']    = self.args['saveImages']  
+            mgz2image_args['skipAllLabels'] = self.args['skipAllLabels']  
+
+            mgz2image_ns    = Namespace(**mgz2image_args)
+            imgConverter    = mgz2imgslices.object_factoryCreate(mgz2image_ns).C_convert
+
+            # At time of dev, the `imgConverter.run()` does not return anything.
+            imgConverter.run()
 
         return {
             'status':           b_status,
@@ -153,6 +211,8 @@ class pfdo_mgz2image(pfdo.pfdo):
         Given a list of files, possibly prune list by
         interal self.args['filter'].
         """
+
+        # pudb.set_trace()
 
         b_status    : bool      = True
         l_file      : list      = []
@@ -202,7 +262,7 @@ class pfdo_mgz2image(pfdo.pfdo):
         as any (overloaded) file filtering.
         """
 
-        # pudb.set_trace()
+        pudb.set_trace()
         b_status        : bool  = False
         b_timerStart    : bool  = False
         d_pfdo          : dict  = {}
