@@ -262,7 +262,7 @@ class pfdo_mgz2image(pfdo.pfdo):
         as any (overloaded) file filtering.
         """
 
-        pudb.set_trace()
+        # pudb.set_trace()
         b_status        : bool  = False
         b_timerStart    : bool  = False
         d_pfdo          : dict  = {}
