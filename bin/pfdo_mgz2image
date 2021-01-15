@@ -396,6 +396,10 @@ parser.add_argument('-w', '--wholeVolume',
                     dest='wholeVolume',
                     default = 'wholeVolume'
                     )
+parser.add_argument('-a', '--args',
+                    help='pass args for individually for each mgz file mentioned in filterExpression',
+                    dest='args',
+                    default='')
 
 args = parser.parse_args()
 
