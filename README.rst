@@ -1,4 +1,4 @@
-pfdo_mgz2image 1.0.10
+pfdo_mgz2image 1.0.12
 =====================
 
 .. image:: https://badge.fury.io/py/pfdo_mgz2image.svg
@@ -68,7 +68,7 @@ Command line arguments
 
         [--filterExpression <someFilter>]
         An optional string to filter the files of interest from the
-        <inputDir> tree.
+        <inputDir> tree. You can also pass a comma separated list of files or substrings to search for.
 
         [--analyzeFileIndex <someIndex>]
         An optional string to control which file(s) in a specific directory
@@ -99,24 +99,6 @@ Command line arguments
         The output file stem to store conversion. If this is specified
         with an extension, this extension will be used to specify the
         output file type.
-
-        SPECIAL CASES:
-        For DICOM data, the <outputFileStem> can be set to the value of
-        an internal DICOM tag. The tag is specified by preceding the tag
-        name with a percent character '%%', so
-
-            -o %%ProtocolName
-
-        will use the DICOM 'ProtocolName' to name the output file. Note
-        that special characters (like spaces) in the DICOM value are
-        replaced by underscores '_'.
-
-        Multiple tags can be specified, for example
-
-            -o %%PatientName%%PatientID%%ProtocolName
-
-        and the output filename will have each DICOM tag string as
-        specified in order, connected with dashes.
 
         [-o|--outputFileStem <outputFileStem>]
         The output file stem to store image conversion. If this is specified
@@ -223,13 +205,12 @@ Run down a directory tree and process all the files in the input tree that are `
 .. code:: bash
 
         pfdo_mgz2image                                      \
-            -I /var/www/html/data --filter nii              \
-            -O /var/www/html/jpg                            \
-            -t jpg                                          \
+            -I /var/www/html/data --filter mgz              \
+            -O /var/www/html/mgz                            \
             --threads 0 --printElapsedTime
 
 
-The above will find all files in the tree structure rooted at /var/www/html/data that also contain the string "nii" anywhere in the filename. For each file found, a `med2image` conversion will be called in the output directory, in the same tree location as the original input.
+The above will find all files in the tree structure rooted at /var/www/html/data that also contain the string "mgz" anywhere in the filename. For each file found, an `mgz2imgslices` conversion will be called in the output directory, in the same tree location as the original input.
 
 Finally the elapsed time and a JSON output are printed.
 

@@ -223,9 +223,11 @@ class pfdo_mgz2image(pfdo.pfdo):
 
         if len(self.args['filter']):
             file_list = self.args['filter'].split(',')
-            for file in file_list:
-                if file in al_file:
-                    l_file.append(file)
+
+        for file in file_list:
+            for a_file in al_file:
+                if file in a_file:
+                    l_file.append(a_file)
 
         if len(l_file):
             l_file.sort()
