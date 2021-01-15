@@ -178,6 +178,8 @@ class pfdo_mgz2image(pfdo.pfdo):
 
         # pudb.set_trace()
         mgz2image_args                  = self.args.copy()
+        
+        # print(at_data)
 
         for str_file in l_fileToAnalyze_determine(l_fileProbed):
             mgz2image_args['inputDir']      = str_path
@@ -220,11 +222,15 @@ class pfdo_mgz2image(pfdo.pfdo):
         al_file     : list      = at_data[1]
 
         if len(self.args['filter']):
-            al_file = [x for x in al_file if self.args['filter'] in x]
+            file_list = self.args['filter'].split(',')
 
-        if len(al_file):
-            al_file.sort()
-            l_file      = al_file
+        for file in file_list:
+            for a_file in al_file:
+                if file in a_file:
+                    l_file.append(a_file)
+
+        if len(l_file):
+            l_file.sort()
             b_status    = True
         else:
             self.dp.qprint( "No valid files to analyze found in path %s!" %
@@ -263,6 +269,7 @@ class pfdo_mgz2image(pfdo.pfdo):
         """
 
         # pudb.set_trace()
+        # print("***********")
         b_status        : bool  = False
         b_timerStart    : bool  = False
         d_pfdo          : dict  = {}
@@ -278,6 +285,7 @@ class pfdo_mgz2image(pfdo.pfdo):
 
         if b_timerStart:    other.tic()
 
+        pudb.set_trace()
         d_pfdo          = super().run(
                             JSONprint   = False,
                             timerStart  = False
